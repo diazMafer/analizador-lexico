@@ -1,13 +1,12 @@
 from automatas import tree
 from automatas import direct
-from automatas import thompson
-from automatas import utils
+import utils
 
 #documentacion from page 6 of pdf https://ssw.jku.at/Research/Projects/Coco/Doc/UserManual.pdf 
 RESERVERD_KEYWORDS = ["ANY", "CHARACTERS", "COMMENTS", "COMPILER", "CONTEXT",
 "END", "FROM", "IF", "IGNORE", "IGNORECASE", "NESTED", "out", "PRAGMAS",
 "PRODUCTIONS", "SYNC", "TO", "TOKENS", "WEAK"]
-
+OPERATORS = ['|', 'ξ'] #or y concatenacion nueva definicion para no entorpecer con el . de characters, tokens o mas
 
 def analized_chars(characters):
     chars_parsed = {}
@@ -67,6 +66,28 @@ def analized_chars(characters):
     return character_parsed
 
 
+def analyzed_keywords(keywords,character_parsed):
+    keywords_parsed = {}
+    for k in keywords:
+        word = keywords[k][:-1]
+        i = 0
+        temp = ""
+        flag = False
+        while i < len(word):
+            if word[i] == '"':
+                flag = not flag
+                if not flag:
+                    temp = temp[:-1] +  ")"
+                else:
+                    temp += "("
+            else:
+                temp += word[i] + "ξ"
+            i += 1
+        keywords_parsed[k] = temp
+    return keywords_parsed
+
+def analyzed_tokens(tokens, characters):
+    tokens_parse = {}
 
 
 
