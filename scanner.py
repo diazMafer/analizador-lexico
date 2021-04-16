@@ -14,7 +14,7 @@ def read_word(file, actual):
             actual += 1
     return word, actual
 
-def scanner(file):
+def scan(file):
     actual = 0
     characters = []
     keywords = []
