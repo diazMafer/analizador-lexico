@@ -7,5 +7,4 @@ def word_break(line, characters, actual = 0, inicial = ""):
         if temp in characters:
             validos.append(temp)
         actual += 1
-    print(max(validos, key=len))
     return max(validos, key = len)

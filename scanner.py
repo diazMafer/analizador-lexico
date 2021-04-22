@@ -37,7 +37,7 @@ def scan(file):
             if final:
                 break
             else:
-                print("No coincide el nombre")
+                print("name does not match")
                 break
     
     print(name)
@@ -52,7 +52,6 @@ def get_compiler(file, actual):
     return name, actual
 
 def get_chars(file, actual):
-    print("leyendo CHARACTERS")
     actual += 1
     temp = ""
     characters = {}
@@ -70,15 +69,13 @@ def get_chars(file, actual):
                 completo = line.split("=")
                 temp_id = completo[0]
                 temp_values = completo[1]
-                #print("id: ",temp_id, " values: ", temp_values)
                 characters[temp_id] = temp_values
                 line =  ""
             else:
-                print("no se encuentra el '='")
+                print("= not found")
     return characters, actual
 
 def get_keywords(file, actual):
-    print("leyendo KEYWORDS")
     actual += 1
     temp = ""
     keywords = {}
@@ -99,11 +96,10 @@ def get_keywords(file, actual):
                 keywords[temp_id] = temp_values
                 line =  ""
             else:
-                print("no se encuentra el '='")
+                print("= not found")
     return keywords, actual
 
 def get_tokens(file, actual):
-    print("leyendo TOKENS")
     actual += 1
     temp = ""
     tokens = {}
@@ -127,7 +123,7 @@ def get_tokens(file, actual):
                 tokens[temp_id] = temp_values
                 line =  ""
             else:
-                print("no se encuentra el '='")
+                print("= not found")
     return tokens, actual
 
 def get_productions(file, actual):
