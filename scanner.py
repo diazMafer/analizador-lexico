@@ -2,6 +2,8 @@
 
 COMMENTS = ["/*", "*/", "//"]
 
+no_keyword = False
+
 def read_word(file, actual):
     word = ""
     while actual < len(file):
@@ -26,7 +28,7 @@ def scan(file):
             name, actual = get_compiler(file, actual)
         if temp_word == "CHARACTERS":
             characters, actual = get_chars(file, actual)
-        if temp_word == "KEYWORDS":
+        if not no_keyword and temp_word == "KEYWORDS":
             keywords, actual = get_keywords(file, actual)
         if temp_word == "TOKENS":
             tokens, actual = get_tokens(file, actual)
@@ -63,16 +65,21 @@ def get_chars(file, actual):
         if temp == "KEYWORDS":
             actual -= 8
             break
+        if temp == "TOKENS":
+            no_keyword = True
+            actual -= 6
+            break
         line += temp
         if line[-1] == "." and line[-2] != ".":
             if "=" in line:
                 completo = line.split("=")
                 temp_id = completo[0]
                 temp_values = completo[1]
+                print(temp_values)
                 characters[temp_id] = temp_values
                 line =  ""
             else:
-                print("= not found")
+                print("= not found in chars")
     return characters, actual
 
 def get_keywords(file, actual):
@@ -96,7 +103,7 @@ def get_keywords(file, actual):
                 keywords[temp_id] = temp_values
                 line =  ""
             else:
-                print("= not found")
+                print("= not found in keywords")
     return keywords, actual
 
 def get_tokens(file, actual):
@@ -115,7 +122,7 @@ def get_tokens(file, actual):
             actual -= 3
             break
         line += temp
-        if line[-1] == ".":
+        if line[-1] == "." and line[-2] != ".":
             if "=" in line:
                 completo = line.split("=")
                 temp_id = completo[0]
@@ -123,7 +130,7 @@ def get_tokens(file, actual):
                 tokens[temp_id] = temp_values
                 line =  ""
             else:
-                print("= not found")
+                print("= not found in tokens")
     return tokens, actual
 
 def get_productions(file, actual):

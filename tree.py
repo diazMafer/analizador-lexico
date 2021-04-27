@@ -1,3 +1,7 @@
+
+OPERATORS = ['|', '*', 'ψ', '?', 'ξ', ')', '(']
+UNITARY = ['*', 'ψ', '?']
+
 """
     Class tree to simulate a tree, each node of the tree contains
     the symbol and the operator or symbol that it is on the right and in the left
@@ -15,23 +19,25 @@ class Tree(object):
     @return tree
 """
 def generate_tree(expression):
-    operators = ['.', '|', '*', '(', ')']
     output = []
     stack = []
     i = 0
-
-    while i < len(expression):        
-        if expression[i] not in operators:
+    
+    while i < len(expression):
+        if expression[i] == ' ':
+            i += 1
+            continue
+        elif expression[i] == "(":
+            stack.append(expression[i])    
+        elif expression[i] not in OPERATORS:
             val = ""
-            while (i < len(expression)) and expression[i] not in operators:
+            while (i < len(expression)) and expression[i] not in OPERATORS:
                 val = str(val) + expression[i]
                 i -= -1
             tree = Tree()
             tree.symbol = val
             output.append(tree)
             i -= 1
-        elif expression[i] == "(":
-            stack.append(expression[i])
         elif expression[i] == ")":
             while len(stack) != 0 and stack[-1] != "(":
                 val2 = output.pop()
@@ -43,9 +49,8 @@ def generate_tree(expression):
                 tree.right = val2
                 output.append(tree)
             stack.pop()
-        
         else:
-            if expression[i] == "*":
+            if (expression[i] in UNITARY):
                 op = expression[i]
                 val = output.pop()
                 tree = Tree()
@@ -54,7 +59,7 @@ def generate_tree(expression):
                 tree.right = None
                 output.append(tree)
             else:
-                while stack  and stack[-1] != '(':
+                while (len(stack) != 0  and stack[-1] != '('):
                     op = stack.pop()
                     val2 = output.pop()
                     val1 = output.pop()
@@ -64,10 +69,9 @@ def generate_tree(expression):
                     tree.right = val2
                     output.append(tree)
                 stack.append(expression[i])
-        
         i -= -1
     
-    while stack:
+    while(len(stack) != 0):
         val2 = output.pop()
         val1 = output.pop()
         op = stack.pop()
@@ -78,5 +82,4 @@ def generate_tree(expression):
         output.append(tree)
         if (len(output) == 1):
             return output[-1]
-
     return output[-1]

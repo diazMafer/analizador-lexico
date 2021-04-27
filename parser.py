@@ -57,6 +57,7 @@ def analized_chars(characters):
                         number += characters[c][i]
                     i += 1
                 number = int(number)
+                print(number)
                 symbol = chr(number)
                 chars_regex += "'"+symbol+"'"
                 temp_string = ""
@@ -148,10 +149,61 @@ def analyzed_tokens(tokens, characters):
                 if token[i + 1] != "" and token[i + 1] != "\n" and token[i + 1] != ".":
                     individual_regex += "ξ"
                 temp = ""
+            if temp == "CHR(":
+                number = ""
+                if tokens[t][i+3] == "." and i+4 <= len(tokens[t]):
+                    while i < len(tokens[t]):
+                        if tokens[t][i] == ")":
+                            break
+                        elif tokens[t][i] == " ":
+                            pass
+                        elif tokens[t][i] == "(":
+                            pass
+                        else:
+                            number += tokens[t][i]
+                        i += 1
+                    start = number
+                    i = i+6
+                    finish = ""
+                    while i < len(tokens[t]):
+                        if tokens[t][i] == ")":
+                            break
+                        elif tokens[t][i] == " ":
+                            pass
+                        elif tokens[t][i] == "(":
+                            pass
+                        else:
+                            finish += tokens[t][i]
+                        i += 1
+                    finish = int(finish)
+
+                    j = int(start)
+                    while j < finish:
+                        individual_regex += "'"+chr(j)+"'" + "|"
+                        j += 1
+                    individual_regex +=  "'"+chr(finish)+"'"
+                    temp = ""
+                else:
+                    while i < len(tokens[t]):
+                        if tokens[t][i] == ")":
+                            break
+                        elif tokens[t][i] == " ":
+                            pass
+                        elif tokens[t][i] == "(":
+                            pass
+                        else:
+                            number += tokens[t][i]
+                        i += 1
+                    number = int(number)
+                    symbol = chr(number)
+                    print(symbol)
+                    individual_regex += "'"+symbol+"'"
+                    temp = ""
             i += 1
         if individual_regex[-1] in OPERATORS:
             individual_regex = individual_regex[:-1]
         tokens_parse_lines[t] = individual_regex
+    print(tokens_parse_lines)
     return tokens_parse_lines
 
 def make_tree(keyword_parse_lines, token_parse_lines):

@@ -6,7 +6,7 @@
     The setters and getters are used just for the subsets algorithm to change the subsets to letters
 """
 class Transition:
-    def __init__(self, start, transition, end):
+    def __init__(self, start = None, transition = None, end = None):
         self.start = start
         self.transition = transition
         self.end = end

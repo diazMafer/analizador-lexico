@@ -1,0 +1,10 @@
+letra
+numero
+hola
+bi1234
+numero65
+10.5
+-4
++4
+4AH
+Nani
