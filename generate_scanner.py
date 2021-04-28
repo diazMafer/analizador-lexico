@@ -117,7 +117,7 @@ def write_automata(automata,i, file, name = "completo"):
         if node.accept:
             file.write("  temp_node.accept = True\n")
         for transition in node.transitions:
-            file.write("  temp_transition = Transition('" + str(transition.transition)+"', "+str(transition.end) +")\n")
+            file.write("  temp_transition = Transition(" + repr(transition.transition)+", "+str(transition.end) +")\n")
             file.write("  temp_node.transitions.append(temp_transition)\n")
         file.write("  automata"+str(i)+".states.append(temp_node)\n")
     file.write("  automatas.append(automata"+str(i)+")\n")

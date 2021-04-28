@@ -59,7 +59,7 @@ def analized_chars(characters):
                 number = int(number)
                 print(number)
                 symbol = chr(number)
-                chars_regex += "'"+symbol+"'"
+                chars_regex += symbol
                 temp_string = ""
             else:
                 temp_string += characters[c][i]
@@ -179,9 +179,9 @@ def analyzed_tokens(tokens, characters):
 
                     j = int(start)
                     while j < finish:
-                        individual_regex += "'"+chr(j)+"'" + "|"
+                        individual_regex += chr(j) + "|"
                         j += 1
-                    individual_regex +=  "'"+chr(finish)+"'"
+                    individual_regex +=  chr(finish)
                     temp = ""
                 else:
                     while i < len(tokens[t]):
@@ -197,7 +197,7 @@ def analyzed_tokens(tokens, characters):
                     number = int(number)
                     symbol = chr(number)
                     print(symbol)
-                    individual_regex += "'"+symbol+"'"
+                    individual_regex += symbol
                     temp = ""
             i += 1
         if individual_regex[-1] in OPERATORS:
