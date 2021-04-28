@@ -1,4 +1,4 @@
-COMPILER Aritmetica    
+COMPILER HexAritmetica
 	
 (.
 /*--------------Scanner Especification----------*/
@@ -27,8 +27,8 @@ TOKENS
 ident = letter{letter|digit} EXCEPT KEYWORDS.
 hexnumber = hexdigit{hexdigit}hexterm EXCEPT KEYWORDS.
 number = digit{digit}.
-signnumber = [sign]digit{digit}.
 whitetoken = whitespace{whitespace}.
+signnumber = [sign]digit{digit}.
 
 PRODUCTIONS
 
@@ -58,4 +58,4 @@ Factor<ref int result> =	(.int signo=1;.)
 	
 Number<ref int result> =  number (. result = int.Parse(lastToken.Value).).
 	.
-END Aritmetica
+END HexAritmetica

@@ -126,7 +126,7 @@ def analyzed_tokens(tokens, characters):
                 temp = ""
             if temp == "]":
                 second_flag = False
-                individual_regex += "?"
+                individual_regex += "?)ξ"
                 temp = ""
             if temp == "(":
                 individual_regex += "("
@@ -223,6 +223,7 @@ def make_tree(keyword_parse_lines, token_parse_lines):
     return dfas, final_regex
 
 def make_one(dfas, final_regex):
+    print(final_regex)
     tree = generate_tree(final_regex)
     final_dfa = directo(tree, final_regex)
     return final_dfa

@@ -126,7 +126,7 @@ def last_pos(tree):
 
 
 def followpos(tree, table):
-    if tree.symbol == "ξ":
+    if tree.symbol == "ξ": #concatenacion .
         temp1 = last_pos(tree.left)
         temp2 = first_pos(tree.right)
         for i in temp1:
@@ -138,7 +138,7 @@ def followpos(tree, table):
         for i in temp1:
             for num in temp2:
                 table[i].append(num)
-    elif tree.symbol == "ψ":
+    elif tree.symbol == "ψ": #suma +
         temp1 = last_pos(tree.left)
         temp2 = first_pos(tree.left)
         for i in temp1:
