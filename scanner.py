@@ -75,7 +75,6 @@ def get_chars(file, actual):
                 completo = line.split("=")
                 temp_id = completo[0]
                 temp_values = completo[1]
-                print(temp_values)
                 characters[temp_id] = temp_values
                 line =  ""
             else:

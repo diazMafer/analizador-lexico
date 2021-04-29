@@ -57,7 +57,6 @@ def analized_chars(characters):
                         number += characters[c][i]
                     i += 1
                 number = int(number)
-                print(number)
                 symbol = chr(number)
                 chars_regex += symbol
                 temp_string = ""
@@ -196,14 +195,12 @@ def analyzed_tokens(tokens, characters):
                         i += 1
                     number = int(number)
                     symbol = chr(number)
-                    print(symbol)
                     individual_regex += symbol
                     temp = ""
             i += 1
         if individual_regex[-1] in OPERATORS:
             individual_regex = individual_regex[:-1]
         tokens_parse_lines[t] = individual_regex
-    print(tokens_parse_lines)
     return tokens_parse_lines
 
 def make_tree(keyword_parse_lines, token_parse_lines):
@@ -223,7 +220,6 @@ def make_tree(keyword_parse_lines, token_parse_lines):
     return dfas, final_regex
 
 def make_one(dfas, final_regex):
-    print(final_regex)
     tree = generate_tree(final_regex)
     final_dfa = directo(tree, final_regex)
     return final_dfa
