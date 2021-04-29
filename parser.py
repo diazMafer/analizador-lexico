@@ -6,7 +6,8 @@ from utils import word_break
 RESERVERD_KEYWORDS = ["ANY", "CHARACTERS", "COMMENTS", "COMPILER", "CONTEXT",
 "END", "FROM", "IF", "IGNORE", "IGNORECASE", "NESTED", "out", "PRAGMAS",
 "PRODUCTIONS", "SYNC", "TO", "TOKENS", "WEAK"]
-OPERATORS = ['|', 'ξ'] #or y concatenacion nueva definicion para no entorpecer con el . de characters, tokens o mas
+OPERATORS = ['Γ', 'ξ'] #or y concatenacion nueva definicion para no entorpecer con el . de characters, tokens o mas
+
 
 def analized_chars(characters):
     character_parsed = {}
@@ -25,9 +26,11 @@ def analized_chars(characters):
                 else:
                     temp_string += "("
             elif flag:
-                temp_string += characters[c][i] + "|"
+                temp_string += characters[c][i] + "Γ"
             elif characters[c][i] == "+":
-                chars_regex += "|"
+                chars_regex += "Γ"
+            elif characters[c][i] == "-":
+                chars_regex += "Γ"
             elif temp_string + characters[c][i] in character_parsed:
                 chars_regex += character_parsed[temp_string+characters[c][i]]
                 temp_string = ""
@@ -42,9 +45,9 @@ def analized_chars(characters):
                     finish = characters[c][i + 1]
                     j = ord(start)
                     while j < ord(finish):
-                        chars_regex += "|" + chr(j)
+                        chars_regex += "Γ" + chr(j)
                         j += 1
-                    chars_regex += "|" + finish
+                    chars_regex += "Γ" + finish
 
             elif temp_string == "CHR(":
                 number = ""
@@ -103,12 +106,12 @@ def analyzed_tokens(tokens, characters):
                 if og != temp:
                     i += len(temp) - len(og)
                 if flag:
-                    individual_regex += characters[temp] + ")*"
+                    individual_regex += characters[temp] + ")Φ"
                 else:
                     individual_regex += characters[temp]
                 temp = ""
             if temp == "|":
-                individual_regex = individual_regex[:-2] + "|"
+                individual_regex = individual_regex[:-2] + "Γ"
                 temp = ""
             if temp == "{":
                 flag = not flag
@@ -125,7 +128,7 @@ def analyzed_tokens(tokens, characters):
                 temp = ""
             if temp == "]":
                 second_flag = False
-                individual_regex += "?)ξ"
+                individual_regex += " Π)ξ"
                 temp = ""
             if temp == "(":
                 individual_regex += "("
@@ -178,7 +181,7 @@ def analyzed_tokens(tokens, characters):
 
                     j = int(start)
                     while j < finish:
-                        individual_regex += chr(j) + "|"
+                        individual_regex += chr(j) + "Γ"
                         j += 1
                     individual_regex +=  chr(finish)
                     temp = ""
@@ -206,13 +209,14 @@ def analyzed_tokens(tokens, characters):
 def make_tree(keyword_parse_lines, token_parse_lines):
     final_regex = ""
     dfas = {}
-    for keyword in keyword_parse_lines:
-        final_regex += "(" + keyword_parse_lines[keyword] + ")" + "|"
-        tree = generate_tree(keyword_parse_lines[keyword])
-        dfas[keyword] = directo(tree, keyword_parse_lines[keyword])
+    if len(keyword_parse_lines) > 0:
+        for keyword in keyword_parse_lines:
+            final_regex += "(" + keyword_parse_lines[keyword] + ")" + "Γ"
+            tree = generate_tree(keyword_parse_lines[keyword])
+            dfas[keyword] = directo(tree, keyword_parse_lines[keyword])
 
     for token in token_parse_lines:
-        final_regex += "(" + token_parse_lines[token] +")" + "|"
+        final_regex += "(" + token_parse_lines[token] +")" + "Γ"
         tree = generate_tree(token_parse_lines[token])
         dfas[token] = directo(tree, token_parse_lines[token])
     final_regex = final_regex[:-1]
@@ -228,15 +232,17 @@ def analyze(name, characters, keywords, tokens):
     character_parsed = analized_chars(characters)
     keyword_parsed = analyzed_keywords(keywords, character_parsed)
     token_parsed = analyzed_tokens(tokens, character_parsed)
-    dfas, final_regex = make_tree(keyword_parsed, token_parsed)
-    final_dfa = make_one(dfas, final_regex)
-
     print("Characters parse:")
     print(character_parsed)
     print("Keywords parsed: ")
     print(keyword_parsed)
     print("Tokens parse:")
     print(token_parsed)
+
+    dfas, final_regex = make_tree(keyword_parsed, token_parsed)
+    final_dfa = make_one(dfas, final_regex)
+
+   
 
     return final_dfa, dfas
 

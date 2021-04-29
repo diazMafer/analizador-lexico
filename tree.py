@@ -1,6 +1,6 @@
 
-OPERATORS = ['|', '*', 'ψ', '?', 'ξ', ')', '(']
-UNITARY = ['*', 'ψ', '?']
+OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', ')', '(']
+UNITARY = ['Φ', 'ψ', ' Π']
 
 """
     Class tree to simulate a tree, each node of the tree contains

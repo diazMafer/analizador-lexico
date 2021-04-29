@@ -20,7 +20,7 @@ id = letter{letter} EXCEPT KEYWORDS.
 idnum = letter{letter}{digit} EXCEPT KEYWORDS.
 number = digit{digit}.
 hexnumber = hexdigit{hexdigit}"(H)".
-tab = CHR(9)..CHR(15).
+tab = CHR(0)..CHR(255).
 
 PRODUCTIONS
 END Ejemplo

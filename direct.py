@@ -3,7 +3,7 @@ from transition import *
 from automata import *
 import collections
 
-OPERATORS = ['|', '*', 'ψ', '?', 'ξ', ')', '(']
+OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', ')', '(']
 EPSILON = "ε"
 
 
@@ -40,9 +40,9 @@ def nullable(tree):
     elif tree.symbol == "ξ":
         if nullable(tree.left) and nullable(tree.right):
             return True
-    elif tree.symbol == "*":
+    elif tree.symbol == "Φ":
         return True
-    elif tree.symbol == "|":
+    elif tree.symbol == "Γ":
         if nullable(tree.left) or nullable(tree.right):
             return True
         else:
@@ -52,21 +52,21 @@ def nullable(tree):
             return True
         else:
             return False
-    elif tree.symbol == "?":
+    elif tree.symbol == " Π":
         return True
     return False
 
 def first_pos(tree):
     pos = []
     if tree.symbol in OPERATORS:
-        if tree.symbol == "|":
+        if tree.symbol == "Γ":
             temp1 = first_pos(tree.left)
             temp2 = first_pos(tree.right)
             for num in temp1:
                 pos.append(num)
             for num in temp2:
                 pos.append(num)
-        elif tree.symbol == "*":
+        elif tree.symbol == "Φ":
             temp1 = first_pos(tree.left)
             for num in temp1:
                 pos.append(num)
@@ -82,7 +82,7 @@ def first_pos(tree):
             temp1 = first_pos(tree.left)
             for num in temp1:
                 pos.append(num)
-        elif tree.symbol == "?":
+        elif tree.symbol == " Π":
             temp1 = first_pos(tree.left)
             for num in temp1:
                 pos.append(num)
@@ -93,14 +93,14 @@ def first_pos(tree):
 def last_pos(tree):
     pos = []
     if tree.symbol in OPERATORS:
-        if tree.symbol == "|":
+        if tree.symbol == "Γ":
             temp1 = last_pos(tree.left)
             temp2 = last_pos(tree.right)
             for num in temp1:
                 pos.append(num)
             for num in temp2:
                 pos.append(num)
-        elif tree.symbol == "*":
+        elif tree.symbol == "Φ":
             temp1 = last_pos(tree.left)
             for num in temp1:
                 pos.append(num)
@@ -116,7 +116,7 @@ def last_pos(tree):
             temp1 = last_pos(tree.left)
             for num in temp1:
                 pos.append(num)
-        elif tree.symbol == "?":
+        elif tree.symbol == " Π": #? nuevo
             temp1 = last_pos(tree.left)
             for num in temp1:
                 pos.append(num)
@@ -132,7 +132,7 @@ def followpos(tree, table):
         for i in temp1:
             for num in temp2:
                 table[i].append(num)
-    elif tree.symbol == "*":
+    elif tree.symbol == "Φ": #kleen *
         temp1 = last_pos(tree)
         temp2 = first_pos(tree)
         for i in temp1:
