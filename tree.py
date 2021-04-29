@@ -1,5 +1,5 @@
 
-OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', ')', '(']
+OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
 UNITARY = ['Φ', 'ψ', ' Π']
 
 """
@@ -27,7 +27,7 @@ def generate_tree(expression):
         if expression[i] == ' ':
             i += 1
             continue
-        elif expression[i] == "(":
+        elif expression[i] == "Ꮼ":
             stack.append(expression[i])    
         elif expression[i] not in OPERATORS:
             val = ""
@@ -38,8 +38,8 @@ def generate_tree(expression):
             tree.symbol = val
             output.append(tree)
             i -= 1
-        elif expression[i] == ")":
-            while len(stack) != 0 and stack[-1] != "(":
+        elif expression[i] == "Ꮽ":
+            while len(stack) != 0 and stack[-1] != "Ꮼ":
                 val2 = output.pop()
                 val1 = output.pop()
                 op = stack.pop()
@@ -59,7 +59,7 @@ def generate_tree(expression):
                 tree.right = None
                 output.append(tree)
             else:
-                while (len(stack) != 0  and stack[-1] != '('):
+                while (len(stack) != 0  and stack[-1] != 'Ꮼ'):
                     op = stack.pop()
                     val2 = output.pop()
                     val1 = output.pop()

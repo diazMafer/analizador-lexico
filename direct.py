@@ -3,7 +3,7 @@ from transition import *
 from automata import *
 import collections
 
-OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', ')', '(']
+OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
 EPSILON = "ε"
 
 

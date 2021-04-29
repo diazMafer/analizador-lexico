@@ -15,21 +15,19 @@ def analized_chars(characters):
         temp_string = ""
         flag = False
         i = 0
-        chars_regex = ""
+        chars_regex = ""            
         while i < len(characters[c]):
             if characters[c][i] == '"' or characters[c][i] == "'":
                 flag = not flag
                 if not flag:
-                    temp_string = temp_string[:-1] + ")"
+                    temp_string = temp_string[:-1] + "Ꮽ"
                     chars_regex += temp_string 
                     temp_string = ""
                 else:
-                    temp_string += "("
+                    temp_string += "Ꮼ" #abro parentesis
             elif flag:
                 temp_string += characters[c][i] + "Γ"
             elif characters[c][i] == "+":
-                chars_regex += "Γ"
-            elif characters[c][i] == "-":
                 chars_regex += "Γ"
             elif temp_string + characters[c][i] in character_parsed:
                 chars_regex += character_parsed[temp_string+characters[c][i]]
@@ -48,7 +46,6 @@ def analized_chars(characters):
                         chars_regex += "Γ" + chr(j)
                         j += 1
                     chars_regex += "Γ" + finish
-
             elif temp_string == "CHR(":
                 number = ""
                 while i < len(characters[c]):
@@ -66,9 +63,39 @@ def analized_chars(characters):
             else:
                 temp_string += characters[c][i]
             i += 1
-        character_parsed[c] = "(" +  chars_regex + ")"
-    return character_parsed
+        character_parsed[c] = "Ꮼ" +  chars_regex + "Ꮽ"
+        if c == "stringletter":
+            finish = 255
+            start = 0
+            chars_regex == ""
+            while start < finish:
+                if start == 13 or start == 10 or start == 9 or start == 34:
+                    pass
+                else:
+                    chars_regex +=  chr(start) + "Γ" 
+                start += 1
+            chars_regex += chr(finish)
+            character_parsed[c] = "Ꮼ" +  chars_regex + "Ꮽ"
+        elif c == "MyANY":
+            finish = 255
+            start = 0
+            chars_regex == ""
+            while start < finish:
+                if start == 43 or start == 45 or start == 46 or start == 40 or start == 41 or start == 61 or start == 91 or start == 92 or start == 123 or start == 125 or start == 124 or start == 60 or start == 62 :
+                    pass
+                else:
+                    chars_regex +=  chr(start) + "Γ" 
+                start += 1
+            chars_regex += chr(finish)
+            character_parsed[c] = "Ꮼ" +  chars_regex + "Ꮽ"
+        elif c == "operadores":
+            p =[43,45,46,40,41,61,91,92,123,125,124,60,62]
+            for i in p[:-1]:
+                chars_regex +=  chr(i) + "Γ"
+            chars_regex += chr(p[-1])
+            character_parsed[c] = "Ꮼ" +  chars_regex + "Ꮽ"
 
+    return character_parsed
 
 def analyzed_keywords(keywords,character_parsed):
     keywords_parsed = {}
@@ -81,9 +108,9 @@ def analyzed_keywords(keywords,character_parsed):
             if word[i] == '"':
                 flag = not flag
                 if not flag:
-                    temp = temp[:-1] +  ")"
+                    temp = temp[:-1] +  "Ꮽ" #cerramos parentesis
                 else:
-                    temp += "("
+                    temp += "Ꮼ"
             else:
                 temp += word[i] + "ξ"
             i += 1
@@ -106,7 +133,7 @@ def analyzed_tokens(tokens, characters):
                 if og != temp:
                     i += len(temp) - len(og)
                 if flag:
-                    individual_regex += characters[temp] + ")Φ"
+                    individual_regex += characters[temp] + "ᏭΦ"
                 else:
                     individual_regex += characters[temp]
                 temp = ""
@@ -115,7 +142,7 @@ def analyzed_tokens(tokens, characters):
                 temp = ""
             if temp == "{":
                 flag = not flag
-                individual_regex += "ξ("
+                individual_regex += "ξᏬ"
                 temp = ""
             if temp == "}" and flag:
                 flag = not flag
@@ -124,17 +151,17 @@ def analyzed_tokens(tokens, characters):
                 second_flag = True
                 if individual_regex != "":
                     individual_regex += "ξ"
-                individual_regex += "("
+                individual_regex += "Ꮼ"
                 temp = ""
             if temp == "]":
                 second_flag = False
-                individual_regex += " Π)ξ"
+                individual_regex += " ΠᏭξ"
                 temp = ""
             if temp == "(":
-                individual_regex += "("
+                individual_regex += "Ꮼ"
                 temp = ""
             if temp == ")":
-                individual_regex += ")"
+                individual_regex += "Ꮽ"
                 temp = ""
             if temp == '"':
                 inner = ""
@@ -145,9 +172,9 @@ def analyzed_tokens(tokens, characters):
                     inner += token[i]
                     i += 1
                 if individual_regex != "" :
-                    individual_regex += "ξ(" + inner + ")"
+                    individual_regex += "ξᏬ" + inner + "Ꮽ"
                 else:
-                    individual_regex += "(" + inner + ")"
+                    individual_regex += "Ꮼ" + inner + "Ꮽ"
                 if token[i + 1] != "" and token[i + 1] != "\n" and token[i + 1] != ".":
                     individual_regex += "ξ"
                 temp = ""
@@ -211,12 +238,13 @@ def make_tree(keyword_parse_lines, token_parse_lines):
     dfas = {}
     if len(keyword_parse_lines) > 0:
         for keyword in keyword_parse_lines:
-            final_regex += "(" + keyword_parse_lines[keyword] + ")" + "Γ"
+            final_regex += "Ꮼ" + keyword_parse_lines[keyword] + "Ꮽ" + "Γ"
             tree = generate_tree(keyword_parse_lines[keyword])
             dfas[keyword] = directo(tree, keyword_parse_lines[keyword])
 
     for token in token_parse_lines:
-        final_regex += "(" + token_parse_lines[token] +")" + "Γ"
+        print(token)
+        final_regex += "Ꮼ" + token_parse_lines[token] +"Ꮽ" + "Γ"
         tree = generate_tree(token_parse_lines[token])
         dfas[token] = directo(tree, token_parse_lines[token])
     final_regex = final_regex[:-1]
