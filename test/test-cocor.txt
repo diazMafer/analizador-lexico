@@ -1,7 +1,8 @@
 CHR(9)..CHR(13)
-"hola"
+     "hola"
 bi1234
 CHR(5)
-hola
+  hola
+'/a'
 (.)
 .)

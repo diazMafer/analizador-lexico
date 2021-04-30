@@ -244,7 +244,7 @@ def analyzed_tokens(tokens, characters):
         if t == "charinterval":
             tokens_parse_lines[t] = 'ᏬᏨᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)ᏭᏜ.Ꮬ.ᏜᏬᏨᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)Ꮽ'
         elif t == "char":
-            tokens_parse_lines[t] = "ᏬᏬᏓᏭᏜᏬᏬ/ᏭΠᏭᏭᏜᏬAΓBΓCΓDΓEΓFΓGΓHΓIΓJΓKΓLΓMΓNΓÑΓOΓPΓQΓRΓSΓTΓUΓVΓWΓXΓYΓZΓaΓbΓcΓdΓeΓfΓgΓhΓiΓjΓkΓlΓmΓnΓñΓoΓpΓqΓrΓsΓtΓuΓvΓwΓxΓyΓzᏭᏬᏓᏭ"
+            tokens_parse_lines[t] = "Ꮼ'ᏭᏜᏬᏬ/ᏭΓεᏭᏜᏬAΓBΓCΓDΓEΓFΓGΓHΓIΓJΓKΓLΓMΓNΓÑΓOΓPΓQΓRΓSΓTΓUΓVΓWΓXΓYΓZΓaΓbΓcΓdΓeΓfΓgΓhΓiΓjΓkΓlΓmΓnΓñΓoΓpΓqΓrΓsΓtΓuΓvΓwΓxΓyΓzᏭᏜᏬ'Ꮽ"
     return tokens_parse_lines
 
 def make_tree(keyword_parse_lines, token_parse_lines):
