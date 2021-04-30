@@ -85,9 +85,12 @@ def create(dfa, extras, name):
     output.write("  prueba = open('../test/'+archivo)\n")
     output.write("  data = prueba.read()\n")
     output.write("  prueba.close()\n")
-    
     output.write("  i = 0\n")
     output.write("  last = 0\n")
+    if (name == "MyCOCOR"):
+        output.write("  data = data.replace('CHR(', 'Ꮸ')\n")
+        output.write("  data = data.replace('(.', 'Ꮚ')\n")
+        output.write("  data = data.replace('.)', 'Ꮙ')\n")
     output.write("  while i < len(data):\n")
     output.write("      valid = word_break(data, automata0, i)\n")
     output.write("      if valid:\n")
@@ -100,6 +103,13 @@ def create(dfa, extras, name):
     output.write("          aut = 1\n")
     output.write("          while aut<len(automatas):\n")
     output.write("              if (is_in_language(automatas[aut], valid)):\n")
+    output.write("                  if 'Ꮸ' in valid:\n")
+    output.write("                    valid = valid.replace('Ꮸ', 'CHR(')\n")
+    output.write("                  elif 'Ꮚ' in valid:\n")
+    output.write("                    valid = valid.replace('Ꮚ', '(.')\n")
+    output.write("                  elif 'Ꮙ' in valid:\n")
+    output.write("                    valid = valid.replace('Ꮙ', '.)')\n")
+
     output.write("                  print(valid, ': ', automatas[aut].id)\n")
     output.write("                  break\n")
     output.write('              aut += 1\n')

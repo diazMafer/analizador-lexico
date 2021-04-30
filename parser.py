@@ -234,11 +234,17 @@ def analyzed_tokens(tokens, characters):
         
         if individual_regex[-1] in OPERATORS:
             individual_regex = individual_regex[:-1]
+        if "CHR(" in individual_regex:
+            individual_regex = individual_regex.replace('CHR(', 'Ꮸ')
+        elif "(." in individual_regex:
+            individual_regex = individual_regex.replace('(.', 'Ꮚ')
+        elif ".)" in individual_regex:
+            individual_regex = individual_regex.replace('.)', 'Ꮙ')
         tokens_parse_lines[t] = individual_regex
         if t == "charinterval":
-            tokens_parse_lines[t] = 'ᏬCHR(ᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)ᏭᏜ.Ꮬ.ᏜᏬCHR(ᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)Ꮽ'
+            tokens_parse_lines[t] = 'ᏬᏨᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)ᏭᏜ.Ꮬ.ᏜᏬᏨᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)Ꮽ'
         elif t == "char":
-            tokens_parse_lines[t] = "Ꮼ'ᏭᏬᏬ/ᏭᏭΠᏬAΓBΓCΓDΓEΓFΓGΓHΓIΓJΓKΓLΓMΓNΓÑΓOΓPΓQΓRΓSΓTΓUΓVΓWΓXΓYΓZΓaΓbΓcΓdΓeΓfΓgΓhΓiΓjΓkΓlΓmΓnΓñΓoΓpΓqΓrΓsΓtΓuΓvΓwΓxΓyΓzᏭᏬ'Ꮽ"
+            tokens_parse_lines[t] = "ᏬᏓᏭᏬᏬ/ᏭᏭΠᏬAΓBΓCΓDΓEΓFΓGΓHΓIΓJΓKΓLΓMΓNΓÑΓOΓPΓQΓRΓSΓTΓUΓVΓWΓXΓYΓZΓaΓbΓcΓdΓeΓfΓgΓhΓiΓjΓkΓlΓmΓnΓñΓoΓpΓqΓrΓsΓtΓuΓvΓwΓxΓyΓzᏭᏬᏓᏭ"
     return tokens_parse_lines
 
 def make_tree(keyword_parse_lines, token_parse_lines):
