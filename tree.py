@@ -1,6 +1,6 @@
 
-OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'Ꮬ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
-UNITARY = ['Φ', 'ψ', ' Π']
+OPERATORS = ['Γ', 'Φ', 'ψ', 'Π', 'Ꮬ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
+UNITARY = ['Φ', 'ψ', 'Π']
 
 """
     Class tree to simulate a tree, each node of the tree contains
