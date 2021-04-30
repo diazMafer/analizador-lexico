@@ -1,5 +1,5 @@
 
-OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
+OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'Ꮬ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
 UNITARY = ['Φ', 'ψ', ' Π']
 
 """

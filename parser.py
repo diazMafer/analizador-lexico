@@ -6,7 +6,7 @@ from utils import word_break
 RESERVERD_KEYWORDS = ["ANY", "CHARACTERS", "COMMENTS", "COMPILER", "CONTEXT",
 "END", "FROM", "IF", "IGNORE", "IGNORECASE", "NESTED", "out", "PRAGMAS",
 "PRODUCTIONS", "SYNC", "TO", "TOKENS", "WEAK"]
-OPERATORS = ['Γ', 'ξ'] #or y concatenacion nueva definicion para no entorpecer con el . de characters, tokens o mas
+OPERATORS = ['Γ', 'Ꮬ'] #or y concatenacion nueva definicion para no entorpecer con el . de characters, tokens o mas
 
 
 def analized_chars(characters):
@@ -65,7 +65,7 @@ def analized_chars(characters):
             i += 1
         character_parsed[c] = "Ꮼ" +  chars_regex + "Ꮽ"
         if c == "stringletter":
-            finish = 255
+            finish = 128
             start = 0
             chars_regex == ""
             while start < finish:
@@ -77,14 +77,17 @@ def analized_chars(characters):
             chars_regex += chr(finish)
             character_parsed[c] = "Ꮼ" +  chars_regex + "Ꮽ"
         elif c == "MyANY":
-            finish = 255
+            finish = 128
             start = 0
             chars_regex == ""
             while start < finish:
                 if start == 43 or start == 45 or start == 46 or start == 40 or start == 41 or start == 61 or start == 91 or start == 92 or start == 123 or start == 125 or start == 124 or start == 60 or start == 62 :
                     pass
                 else:
-                    chars_regex +=  chr(start) + "Γ" 
+                    if chr(start) == " ":
+                        chars_regex +=  repr(chr(start)) + "Γ" 
+                    else:
+                        chars_regex +=  chr(start) + "Γ" 
                 start += 1
             chars_regex += chr(finish)
             character_parsed[c] = "Ꮼ" +  chars_regex + "Ꮽ"
@@ -112,7 +115,7 @@ def analyzed_keywords(keywords,character_parsed):
                 else:
                     temp += "Ꮼ"
             else:
-                temp += word[i] + "ξ"
+                temp += word[i] + "Ꮬ"
             i += 1
         keywords_parsed[k] = temp
     return keywords_parsed
@@ -142,7 +145,7 @@ def analyzed_tokens(tokens, characters):
                 temp = ""
             if temp == "{":
                 flag = not flag
-                individual_regex += "ξᏬ"
+                individual_regex += "ᏜᏬ"
                 temp = ""
             if temp == "}" and flag:
                 flag = not flag
@@ -150,12 +153,12 @@ def analyzed_tokens(tokens, characters):
             if temp == "[":
                 second_flag = True
                 if individual_regex != "":
-                    individual_regex += "ξ"
+                    individual_regex += "Ꮬ"
                 individual_regex += "Ꮼ"
                 temp = ""
             if temp == "]":
                 second_flag = False
-                individual_regex += " ΠᏭξ"
+                individual_regex += " ΠᏭᏜ"
                 temp = ""
             if temp == "(":
                 individual_regex += "Ꮼ"
@@ -172,11 +175,11 @@ def analyzed_tokens(tokens, characters):
                     inner += token[i]
                     i += 1
                 if individual_regex != "" :
-                    individual_regex += "ξᏬ" + inner + "Ꮽ"
+                    individual_regex += "ᏜᏬ" + inner + "Ꮽ"
                 else:
                     individual_regex += "Ꮼ" + inner + "Ꮽ"
                 if token[i + 1] != "" and token[i + 1] != "\n" and token[i + 1] != ".":
-                    individual_regex += "ξ"
+                    individual_regex += "Ꮬ"
                 temp = ""
             if temp == "CHR(":
                 number = ""
@@ -228,9 +231,14 @@ def analyzed_tokens(tokens, characters):
                     individual_regex += symbol
                     temp = ""
             i += 1
+        
         if individual_regex[-1] in OPERATORS:
             individual_regex = individual_regex[:-1]
         tokens_parse_lines[t] = individual_regex
+        if t == "charinterval":
+            tokens_parse_lines[t] = 'ᏬCHR(ᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)ᏭᏜ.Ꮬ.ᏜᏬCHR(ᏭᏜᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏜᏬᏬᏬ0Γ1Γ2Γ3Γ4Γ5Γ6Γ7Γ8Γ9ᏭᏭᏭΦᏜᏬ)Ꮽ'
+        elif t == "char":
+            tokens_parse_lines[t] = "Ꮼ'ᏭᏬᏬ/ᏭᏭΠᏬAΓBΓCΓDΓEΓFΓGΓHΓIΓJΓKΓLΓMΓNΓÑΓOΓPΓQΓRΓSΓTΓUΓVΓWΓXΓYΓZΓaΓbΓcΓdΓeΓfΓgΓhΓiΓjΓkΓlΓmΓnΓñΓoΓpΓqΓrΓsΓtΓuΓvΓwΓxΓyΓzᏭᏬ'Ꮽ"
     return tokens_parse_lines
 
 def make_tree(keyword_parse_lines, token_parse_lines):
@@ -252,6 +260,7 @@ def make_tree(keyword_parse_lines, token_parse_lines):
     return dfas, final_regex
 
 def make_one(dfas, final_regex):
+    print(final_regex)
     tree = generate_tree(final_regex)
     final_dfa = directo(tree, final_regex)
     return final_dfa

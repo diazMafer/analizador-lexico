@@ -3,7 +3,8 @@ from transition import *
 from automata import *
 import collections
 
-OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'ξ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
+OPERATORS = ['Γ', 'Φ', 'ψ', ' Π', 'Ꮬ', 'Ꮽ', 'Ꮼ'] #ultimo parentesis abierto
+
 EPSILON = "ε"
 
 
@@ -37,7 +38,7 @@ def estados_importantes(tree):
 def nullable(tree):
     if tree.symbol == EPSILON:
         return True
-    elif tree.symbol == "ξ":
+    elif tree.symbol == "Ꮬ":
         if nullable(tree.left) and nullable(tree.right):
             return True
     elif tree.symbol == "Φ":
@@ -70,7 +71,7 @@ def first_pos(tree):
             temp1 = first_pos(tree.left)
             for num in temp1:
                 pos.append(num)
-        elif tree.symbol == "ξ":
+        elif tree.symbol == "Ꮬ":
             temp1 = first_pos(tree.left)
             for num in temp1:
                 pos.append(num)
@@ -93,7 +94,7 @@ def first_pos(tree):
 def last_pos(tree):
     pos = []
     if tree.symbol in OPERATORS:
-        if tree.symbol == "Γ":
+        if tree.symbol == "Γ": #nuevo or
             temp1 = last_pos(tree.left)
             temp2 = last_pos(tree.right)
             for num in temp1:
@@ -104,7 +105,7 @@ def last_pos(tree):
             temp1 = last_pos(tree.left)
             for num in temp1:
                 pos.append(num)
-        elif tree.symbol == "ξ":
+        elif tree.symbol == "Ꮬ":
             temp1 = last_pos(tree.right)
             if nullable(tree.right):
                 temp2 = last_pos(tree.left)
@@ -126,7 +127,7 @@ def last_pos(tree):
 
 
 def followpos(tree, table):
-    if tree.symbol == "ξ": #concatenacion .
+    if tree.symbol == "Ꮬ": #concatenacion .
         temp1 = last_pos(tree.left)
         temp2 = first_pos(tree.right)
         for i in temp1:
@@ -152,7 +153,7 @@ def followpos(tree, table):
 
 def directo(tree, exp):
     new_tree = Tree()
-    new_tree.symbol = "ξ"
+    new_tree.symbol = "Ꮬ"
     right_t = Tree()
     right_t.symbol = "#"
     new_tree.right = right_t
